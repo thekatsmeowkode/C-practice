@@ -8,9 +8,12 @@ namespace HelloWorld
 {
     class Program
     {
+        enum Chest { Open, Closed, Locked };
+
         static void Main(string[] args)
         {
             // Console.BackgroundColor = ConsoleColor.DarkCyan;
+            
             // Console.ForegroundColor = ConsoleColor.Black;
             // Console.Title = "Beautiousness"; 
             // Console.Beep();
@@ -52,63 +55,53 @@ namespace HelloWorld
             //     int swallowNum = Convert.ToInt32(strnum);
             //     return swallowNum;
             // }
+            ChangeChest();
+        }
 
-        enum Chest { Open, Closed, Locked };
-
-        Chest chestState = Chest.Open;
-
-         bool DetermineActionValidity(string action, Chest chestState)
+        static Chest DetermineActionValidity(string currentRequest, Chest chestState)
             {
-                switch (action)
+                
+                switch (currentRequest)
                 {
                     case "lock":
                         if (chestState == Chest.Closed)
                         {
-                            chestState = Chest.Locked;
-                            return true;
+                            return Chest.Locked;
                         }
-                        else { return false; };
                         break;
                     case "close":
                         if (chestState == Chest.Open)
                         {
-                            chestState = Chest.Closed;
-                            return true;
+                            return Chest.Closed;
                         }
-                        else { return false; };
                         break;
                     case "unlock":
                         if (chestState == Chest.Locked)
                         {
-                            chestState = Chest.Closed;
-                            return true;
+                            return Chest.Closed;
                         }
-                        else { return false; };
                         break;
                     case "open":
                         if (chestState == Chest.Closed)
                         {
-                            chestState = Chest.Open;
-                            return true;
+                            return Chest.Open;
                         }
-                        else { return false; };
                         break;
                     default:
-                        return false;
-                        break;
+                        return chestState;
                 };
+                return chestState;
             }
 
-        void ChangeChest(Chest chestState)
+        static void ChangeChest()
         {
+            Chest chestState = Chest.Open;
+            while (true) {
             Console.WriteLine($"The chest is {chestState}.  What do you want to do?");
             string currentRequest = Console.ReadLine();
-            bool action = DetermineActionValidity(currentRequest, chestState);
-
+            if (currentRequest == null) {break;}
+            chestState = DetermineActionValidity(currentRequest, chestState);
+            }
         }
-
-        ChangeChest(chestState);
-    }
-
 }
 }
