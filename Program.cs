@@ -19,6 +19,9 @@ namespace HelloWorld
             white.printColor();
             customColor.printColor();
 
+            PlayingCard playingCard = new PlayingCard();
+            playingCard.makeDeck();
+
         }
 
         class Point
@@ -65,6 +68,39 @@ namespace HelloWorld
             public static Color green = new Color(255, 255, 255);
             public static Color blue = new Color(255, 255, 255);
             public static Color purple = new Color(255, 255, 255);
+        }
+
+        enum CardColor {Red = 1, Green, Blue, Yellow};
+        enum CardRank {One = 1, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, DollarSign, Percent, Caret, Ampersand};
+
+        class PlayingCard {
+            CardColor _color;
+            CardRank _rank;
+            public PlayingCard(CardColor color, CardRank rank) {
+                _color = color;
+                _rank = rank;
+            }
+
+            public PlayingCard() {
+                _color = CardColor.Red;
+                _rank = CardRank.One;
+            }
+
+            public bool checkIfFace() {
+                if (this._rank == CardRank.DollarSign || this._rank == CardRank.Percent || this._rank == CardRank.Caret || this._rank == CardRank.Ampersand) {
+                    return true;
+                }
+                else {return false;}
+            }
+
+            public void makeDeck() {
+                foreach (CardColor color in Enum.GetValues(typeof(CardColor))) {
+                    foreach (CardRank rank in Enum.GetValues(typeof(CardRank))) {
+                        Console.WriteLine($"The {color} {rank}");
+                        new PlayingCard(color, rank);
+                    }
+                }
+            }
         }
     }
 }
